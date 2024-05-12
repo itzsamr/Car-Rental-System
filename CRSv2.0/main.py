@@ -414,11 +414,15 @@ def main():
                         payments = payment_dao.retrieve_payment_history(customer_id)
 
                         if payments:
-                            print("Payment History:")
-                            for payment in payments:
-                                print(
-                                    f"Payment ID: {payment.paymentID}, Payment Date: {payment.paymentDate}, Amount: {payment.amount}"
-                                )
+                            payment_data = [
+                                [payment.paymentID, payment.paymentDate, payment.amount]
+                                for payment in payments
+                            ]
+                            headers = ["Payment ID", "Payment Date", "Amount"]
+                            print(
+                                tabulate(payment_data, headers=headers, tablefmt="grid")
+                            )
+
                         else:
                             print("No payment history found for the given customer ID.")
                     except ValueError:
@@ -430,7 +434,11 @@ def main():
                     # Calculate Total Revenue
                     try:
                         total_revenue = payment_dao.calculate_total_revenue()
-                        print(f"Total Revenue: {total_revenue}")
+                        print(
+                            tabulate(
+                                [[f"Total Revenue: {total_revenue}"]], tablefmt="grid"
+                            )
+                        )
                     except Exception as e:
                         print(f"Error calculating total revenue: {e}")
 

@@ -1,6 +1,6 @@
-from customer import Customer
-from DBConnUtil import DBConnUtil
-from customer_not_found_exception import CustomerNotFoundException
+from entity.customer import Customer
+from util.DBConnUtil import DBConnUtil
+from exception.customer_not_found_exception import CustomerNotFoundException
 
 
 class CustomerDAO:

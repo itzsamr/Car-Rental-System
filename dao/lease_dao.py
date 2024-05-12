@@ -1,6 +1,6 @@
-from lease import Lease
-from DBConnUtil import DBConnUtil
-from lease_not_found_exception import LeaseNotFoundException
+from entity.lease import Lease
+from util.DBConnUtil import DBConnUtil
+from exception.lease_not_found_exception import LeaseNotFoundException
 
 
 class LeaseDAO:

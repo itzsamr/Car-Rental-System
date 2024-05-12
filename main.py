@@ -1,20 +1,20 @@
 from tabulate import tabulate
-from .dao import *
-from .entity import *
-from .util import *
-from .exception import *
+from dao import *
+from entity import *
+from util import *
+from exception import *
 import sys
 
-sys.path.append(
+sys.path.insert(
     "C:/Users/91915/OneDrive - Valliammai Engineering College/Desktop/CarRentalSystem/dao"
 )
-sys.path.append(
+sys.path.insert(
     "C:/Users/91915/OneDrive - Valliammai Engineering College/Desktop/CarRentalSystem/entity"
 )
-sys.path.append(
+sys.path.insert(
     "C:/Users/91915/OneDrive - Valliammai Engineering College/Desktop/CarRentalSystem/exception"
 )
-sys.path.append(
+sys.path.insert(
     "C:/Users/91915/OneDrive - Valliammai Engineering College/Desktop/CarRentalSystem/util"
 )
 

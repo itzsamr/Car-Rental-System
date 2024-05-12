@@ -1,5 +1,5 @@
-from DBConnUtil import DBConnUtil
-from payment import Payment
+from util.DBConnUtil import DBConnUtil
+from entity.payment import Payment
 
 
 class PaymentDAO:

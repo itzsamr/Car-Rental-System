@@ -1,6 +1,6 @@
-from vehicle import Vehicle
-from DBConnUtil import DBConnUtil
-from car_not_found_exception import CarNotFoundException
+from entity.vehicle import Vehicle
+from util.DBConnUtil import DBConnUtil
+from exception.car_not_found_exception import CarNotFoundException
 
 
 class VehicleDAO:
