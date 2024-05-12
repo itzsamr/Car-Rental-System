@@ -3,6 +3,9 @@ from customer_dao import CustomerDAO
 from vehicle_dao import VehicleDAO
 from lease_dao import LeaseDAO
 from payment_dao import PaymentDAO
+from customer_not_found_exception import CustomerNotFoundException
+from car_not_found_exception import CarNotFoundException
+from lease_not_found_exception import LeaseNotFoundException
 
 
 def main():
@@ -34,38 +37,76 @@ def main():
 
                 if sub_choice == "1":
                     # Add Customer
-                    pass
+                    customer_id = input("Enter new customer ID: ")
+                    first_name = input("Enter first name: ")
+                    last_name = input("Enter last name: ")
+                    email = input("Enter email: ")
+                    phone_number = input("Enter phone number: ")
+                    customer_dao.add_customer(
+                        customer_id, first_name, last_name, email, phone_number
+                    )
+
                 elif sub_choice == "2":
                     # Remove Customer
-                    pass
+                    customer_id = input("Enter customer ID to remove: ")
+                    customer_dao.remove_customer(customer_id)
+
                 elif sub_choice == "3":
                     # List Customers
-                    customers = customer_dao.list_customers()
-                    customer_data = [
-                        [
-                            customer.customerID,
-                            customer.firstName,
-                            customer.lastName,
-                            customer.email,
-                            customer.phoneNumber,
-                        ]
-                        for customer in customers
-                    ]
-                    print(
-                        tabulate(
-                            customer_data,
-                            headers=[
-                                "ID",
+                    try:
+                        customers = customer_dao.list_customers()
+                        if customers:
+                            headers = [
+                                "Customer ID",
                                 "First Name",
                                 "Last Name",
                                 "Email",
                                 "Phone Number",
-                            ],
-                        )
-                    )
+                            ]
+                            table = [
+                                [
+                                    customer.customerID,
+                                    customer.firstName,
+                                    customer.lastName,
+                                    customer.email,
+                                    customer.phoneNumber,
+                                ]
+                                for customer in customers
+                            ]
+                            print(tabulate(table, headers, tablefmt="grid"))
+                        else:
+                            print("No customers found.")
+                    except Exception as e:
+                        print(f"Error: {e}")
+
                 elif sub_choice == "4":
                     # Find Customer by ID
-                    pass
+                    customer_id = input("Enter customer ID to find: ")
+                    try:
+                        customer = customer_dao.find_customer_by_id(customer_id)
+                        if customer:
+                            headers = [
+                                "Customer ID",
+                                "First Name",
+                                "Last Name",
+                                "Email",
+                                "Phone Number",
+                            ]
+                            table = [
+                                [
+                                    customer.customerID,
+                                    customer.firstName,
+                                    customer.lastName,
+                                    customer.email,
+                                    customer.phoneNumber,
+                                ]
+                            ]
+                            print(tabulate(table, headers, tablefmt="grid"))
+                        else:
+                            print("Customer not found.")
+                    except CustomerNotFoundException as e:
+                        print(f"Error: {e}")
+
                 elif sub_choice == "5":
                     break
                 else:

@@ -4,18 +4,13 @@ from customer_not_found_exception import CustomerNotFoundException
 
 
 class CustomerDAO:
-    def add_customer(self, customer):
+    def add_customer(self, customer_id, first_name, last_name, email, phone_number):
         try:
             conn = DBConnUtil.create_connection()
             cursor = conn.cursor()
             cursor.execute(
-                "INSERT INTO Customer (firstName, lastName, email, phoneNumber) VALUES (?, ?, ?, ?)",
-                (
-                    customer.firstName,
-                    customer.lastName,
-                    customer.email,
-                    customer.phoneNumber,
-                ),
+                "INSERT INTO Customer (customerID, firstName, lastName, email, phoneNumber) VALUES (?, ?, ?, ?, ?)",
+                (customer_id, first_name, last_name, email, phone_number),
             )
             conn.commit()
             print("Customer added successfully.")
