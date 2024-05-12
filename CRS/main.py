@@ -344,7 +344,8 @@ def main():
                 print("1. Record Payment")
                 print("2. Retrieve Payment History")
                 print("3. Calculate Total Revenue")
-                print("4. Back to Main Menu")
+                print("4. List All Payment")
+                print("5. Back to Main Menu")
 
                 sub_choice = input("Enter your choice: ")
 
@@ -396,6 +397,39 @@ def main():
                         print(f"Error calculating total revenue: {e}")
 
                 elif sub_choice == "4":
+                    # List All Payments
+                    try:
+                        payments = payment_dao.list_all_payments()
+
+                        if payments:
+                            print("All Payments:")
+                            payment_data = [
+                                [
+                                    payment.paymentID,
+                                    payment.leaseID,
+                                    payment.paymentDate,
+                                    payment.amount,
+                                ]
+                                for payment in payments
+                            ]
+                            print(
+                                tabulate(
+                                    payment_data,
+                                    headers=[
+                                        "Payment ID",
+                                        "Lease ID",
+                                        "Payment Date",
+                                        "Amount",
+                                    ],
+                                    tablefmt="grid",
+                                )
+                            )
+                        else:
+                            print("No payments found.")
+                    except Exception as e:
+                        print(f"Error listing all payments: {e}")
+
+                elif sub_choice == "5":
                     break
                 else:
                     print("Invalid choice. Please try again.")

@@ -51,3 +51,19 @@ class PaymentDAO:
         finally:
             if conn:
                 conn.close()
+
+    def list_all_payments(self):
+        try:
+            conn = DBConnUtil.create_connection()
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM Payment")
+            payments = []
+            for row in cursor.fetchall():
+                payment = Payment(
+                    paymentID=row[0], leaseID=row[1], paymentDate=row[2], amount=row[3]
+                )
+                payments.append(payment)
+            conn.close()
+            return payments
+        except Exception as e:
+            print(f"Error listing all payments: {e}")
