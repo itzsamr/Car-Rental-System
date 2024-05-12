@@ -354,7 +354,7 @@ def main():
                                 lease.customerID,
                                 lease.startDate,
                                 lease.endDate,
-                                lease.type,
+                                lease.leaseType,
                             ]
                             for lease in leases
                         ]
@@ -364,7 +364,7 @@ def main():
                             "Customer ID",
                             "Start Date",
                             "End Date",
-                            "Type",
+                            "leaseType",
                         ]
                         print(tabulate(lease_data, headers, tablefmt="grid"))
                     except Exception as e:
