@@ -41,19 +41,27 @@ def main():
 
                 if sub_choice == "1":
                     # Add Customer
-                    customer_id = input("Enter new customer ID: ")
-                    first_name = input("Enter first name: ")
-                    last_name = input("Enter last name: ")
-                    email = input("Enter email: ")
-                    phone_number = input("Enter phone number: ")
-                    customer_dao.add_customer(
-                        customer_id, first_name, last_name, email, phone_number
-                    )
+                    try:
+                        customer_id = input("Enter new customer ID: ")
+                        first_name = input("Enter first name: ")
+                        last_name = input("Enter last name: ")
+                        email = input("Enter email: ")
+                        phone_number = input("Enter phone number: ")
+                        customer_dao.add_customer(
+                            customer_id, first_name, last_name, email, phone_number
+                        )
+                        print("Customer added successfully.")
+                    except Exception as e:
+                        print(f"Error adding customer: {e}")
 
                 elif sub_choice == "2":
                     # Remove Customer
-                    customer_id = input("Enter customer ID to remove: ")
-                    customer_dao.remove_customer(customer_id)
+                    try:
+                        customer_id = input("Enter customer ID to remove: ")
+                        customer_dao.remove_customer(customer_id)
+                        print("Customer removed successfully.")
+                    except Exception as e:
+                        print(f"Error removing customer: {e}")
 
                 elif sub_choice == "3":
                     # List Customers
@@ -81,12 +89,12 @@ def main():
                         else:
                             print("No customers found.")
                     except Exception as e:
-                        print(f"Error: {e}")
+                        print(f"Error listing customers: {e}")
 
                 elif sub_choice == "4":
                     # Find Customer by ID
-                    customer_id = input("Enter customer ID to find: ")
                     try:
+                        customer_id = input("Enter customer ID to find: ")
                         customer = customer_dao.find_customer_by_id(customer_id)
                         if customer:
                             headers = [
@@ -130,93 +138,44 @@ def main():
 
                 if sub_choice == "1":
                     # Add Vehicle
-                    vehicle_id = input("Enter vehicle ID: ")
-                    make = input("Enter make: ")
-                    model = input("Enter model: ")
-                    year = int(input("Enter year: "))
-                    daily_rate = float(input("Enter daily rate: "))
-                    status = input("Enter status (available/notAvailable): ")
-                    passenger_capacity = int(input("Enter passenger capacity: "))
-                    engine_capacity = float(input("Enter engine capacity: "))
+                    try:
+                        vehicle_id = input("Enter vehicle ID: ")
+                        make = input("Enter make: ")
+                        model = input("Enter model: ")
+                        year = int(input("Enter year: "))
+                        daily_rate = float(input("Enter daily rate: "))
+                        status = input("Enter status (available/notAvailable): ")
+                        passenger_capacity = int(input("Enter passenger capacity: "))
+                        engine_capacity = float(input("Enter engine capacity: "))
 
-                    vehicle = Vehicle(
-                        vehicle_id,
-                        make,
-                        model,
-                        year,
-                        daily_rate,
-                        status,
-                        passenger_capacity,
-                        engine_capacity,
-                    )
-                    vehicle_dao.add_vehicle(vehicle)
+                        vehicle = Vehicle(
+                            vehicle_id,
+                            make,
+                            model,
+                            year,
+                            daily_rate,
+                            status,
+                            passenger_capacity,
+                            engine_capacity,
+                        )
+                        vehicle_dao.add_vehicle(vehicle)
+                        print("Vehicle added successfully.")
+                    except Exception as e:
+                        print(f"Error adding vehicle: {e}")
 
                 elif sub_choice == "2":
                     # Remove Vehicle
-                    vehicle_id = input("Enter vehicle ID to remove: ")
-                    vehicle_dao.remove_vehicle(vehicle_id)
+                    try:
+                        vehicle_id = input("Enter vehicle ID to remove: ")
+                        vehicle_dao.remove_vehicle(vehicle_id)
+                        print("Vehicle removed successfully.")
+                    except Exception as e:
+                        print(f"Error removing vehicle: {e}")
 
                 elif sub_choice == "3":
                     # List Available Cars
-                    cars = vehicle_dao.list_available_cars()
-                    car_data = [
-                        [
-                            car.vehicleID,
-                            car.make,
-                            car.model,
-                            car.year,
-                            car.dailyRate,
-                            car.status,
-                            car.passengerCapacity,
-                            car.engineCapacity,
-                        ]
-                        for car in cars
-                    ]
-                    headers = [
-                        "ID",
-                        "Make",
-                        "Model",
-                        "Year",
-                        "Daily Rate",
-                        "Status",
-                        "Passenger Capacity",
-                        "Engine Capacity",
-                    ]
-                    print(tabulate(car_data, headers, tablefmt="grid"))
-
-                elif sub_choice == "4":
-                    # List Rented Cars
-                    cars = vehicle_dao.list_rented_cars()
-                    car_data = [
-                        [
-                            car.vehicleID,
-                            car.make,
-                            car.model,
-                            car.year,
-                            car.dailyRate,
-                            car.status,
-                            car.passengerCapacity,
-                            car.engineCapacity,
-                        ]
-                        for car in cars
-                    ]
-                    headers = [
-                        "ID",
-                        "Make",
-                        "Model",
-                        "Year",
-                        "Daily Rate",
-                        "Status",
-                        "Passenger Capacity",
-                        "Engine Capacity",
-                    ]
-                    print(tabulate(car_data, headers, tablefmt="grid"))
-
-                elif sub_choice == "5":
-                    # Find Car by ID
-                    car_id = input("Enter car ID to find: ")
-                    car = vehicle_dao.find_car_by_id(car_id)
-                    if car:
+                    try:
+                        cars = vehicle_dao.list_available_cars()
                         car_data = [
                             [
                                 car.vehicleID,
@@ -228,6 +187,7 @@ def main():
                                 car.passengerCapacity,
                                 car.engineCapacity,
                             ]
+                            for car in cars
                         ]
                         headers = [
                             "ID",
@@ -240,8 +200,73 @@ def main():
                             "Engine Capacity",
                         ]
                         print(tabulate(car_data, headers, tablefmt="grid"))
-                    else:
-                        print("Car not found.")
+                    except Exception as e:
+                        print(f"Error listing available cars: {e}")
+
+                elif sub_choice == "4":
+                    # List Rented Cars
+                    try:
+                        cars = vehicle_dao.list_rented_cars()
+                        car_data = [
+                            [
+                                car.vehicleID,
+                                car.make,
+                                car.model,
+                                car.year,
+                                car.dailyRate,
+                                car.status,
+                                car.passengerCapacity,
+                                car.engineCapacity,
+                            ]
+                            for car in cars
+                        ]
+                        headers = [
+                            "ID",
+                            "Make",
+                            "Model",
+                            "Year",
+                            "Daily Rate",
+                            "Status",
+                            "Passenger Capacity",
+                            "Engine Capacity",
+                        ]
+                        print(tabulate(car_data, headers, tablefmt="grid"))
+                    except Exception as e:
+                        print(f"Error listing rented cars: {e}")
+
+                elif sub_choice == "5":
+                    # Find Car by ID
+                    try:
+                        car_id = input("Enter car ID to find: ")
+                        car = vehicle_dao.find_car_by_id(car_id)
+                        if car:
+                            car_data = [
+                                [
+                                    car.vehicleID,
+                                    car.make,
+                                    car.model,
+                                    car.year,
+                                    car.dailyRate,
+                                    car.status,
+                                    car.passengerCapacity,
+                                    car.engineCapacity,
+                                ]
+                            ]
+                            headers = [
+                                "ID",
+                                "Make",
+                                "Model",
+                                "Year",
+                                "Daily Rate",
+                                "Status",
+                                "Passenger Capacity",
+                                "Engine Capacity",
+                            ]
+                            print(tabulate(car_data, headers, tablefmt="grid"))
+                        else:
+                            print("Car not found.")
+                    except Exception as e:
+                        print(f"Error finding car: {e}")
 
                 elif sub_choice == "6":
                     break
@@ -261,74 +286,87 @@ def main():
 
                 if sub_choice == "1":
                     # Create Lease
-                    lease_id = input("Enter new lease ID: ")
-                    customer_id = input("Enter customer ID: ")
-                    car_id = input("Enter car ID: ")
-                    start_date = input("Enter start date (YYYY-MM-DD): ")
-                    end_date = input("Enter end date (YYYY-MM-DD): ")
-                    lease_type = input("Enter lease type (DailyLease/MonthlyLease): ")
-                    lease_dao.create_lease(
-                        lease_id, customer_id, car_id, start_date, end_date, lease_type
-                    )
+                    try:
+                        lease_id = input("Enter new lease ID: ")
+                        customer_id = input("Enter customer ID: ")
+                        car_id = input("Enter car ID: ")
+                        start_date = input("Enter start date (YYYY-MM-DD): ")
+                        end_date = input("Enter end date (YYYY-MM-DD): ")
+                        lease_type = input(
+                            "Enter lease type (DailyLease/MonthlyLease): "
+                        )
+                        lease_dao.create_lease(
+                            lease_id,
+                            customer_id,
+                            car_id,
+                            start_date,
+                            end_date,
+                            lease_type,
+                        )
+                        print("Lease created successfully.")
+                    except Exception as e:
+                        print(f"Error creating lease: {e}")
 
                 elif sub_choice == "2":
                     # Return Car
-                    lease_id = input("Enter lease ID to return the car: ")
-                    lease_dao.return_car(lease_id)
+                    try:
+                        lease_id = input("Enter lease ID to return the car: ")
+                        lease_dao.return_car(lease_id)
+                        print("Car returned successfully.")
+                    except Exception as e:
+                        print(f"Error returning car: {e}")
 
                 elif sub_choice == "3":
                     # List Active Leases
-                    leases = lease_dao.list_active_leases()
-                    lease_data = [
-                        [
-                            lease.leaseID,
-                            lease.vehicleID,
-                            lease.customerID,
-                            lease.startDate,
-                            lease.endDate,
-                            lease.type,
+                    try:
+                        leases = lease_dao.list_active_leases()
+                        lease_data = [
+                            [
+                                lease.leaseID,
+                                lease.vehicleID,
+                                lease.customerID,
+                                lease.startDate,
+                                lease.endDate,
+                                lease.type,
+                            ]
+                            for lease in leases
                         ]
-                        for lease in leases
-                    ]
-                    headers = [
-                        "Lease ID",
-                        "Vehicle ID",
-                        "Customer ID",
-                        "Start Date",
-                        "End Date",
-                        "Type",
-                    ]
-                    print(tabulate(lease_data, headers, tablefmt="grid"))
+                        headers = [
+                            "Lease ID",
+                            "Vehicle ID",
+                            "Customer ID",
+                            "Start Date",
+                            "End Date",
+                            "Type",
+                        ]
+                        print(tabulate(lease_data, headers, tablefmt="grid"))
+                    except Exception as e:
+                        print(f"Error listing active leases: {e}")
 
                 elif sub_choice == "4":
                     # List Lease History
                     try:
                         leases = lease_dao.list_lease_history()
-                        if leases:
-                            lease_data = [
-                                [
-                                    lease.leaseID,
-                                    lease.vehicleID,
-                                    lease.customerID,
-                                    lease.startDate,
-                                    lease.endDate,
-                                    lease.leaseType,
-                                ]
-                                for lease in leases
+                        lease_data = [
+                            [
+                                lease.leaseID,
+                                lease.vehicleID,
+                                lease.customerID,
+                                lease.startDate,
+                                lease.endDate,
+                                lease.type,
                             ]
-                            headers = [
-                                "Lease ID",
-                                "Vehicle ID",
-                                "Customer ID",
-                                "Start Date",
-                                "End Date",
-                                "Type",
-                            ]
-                            print(
-                                tabulate(lease_data, headers=headers, tablefmt="grid")
-                            )
-                        else:
-                            print("No lease history found.")
+                            for lease in leases
+                        ]
+                        headers = [
+                            "Lease ID",
+                            "Vehicle ID",
+                            "Customer ID",
+                            "Start Date",
+                            "End Date",
+                            "Type",
+                        ]
+                        print(tabulate(lease_data, headers, tablefmt="grid"))
                     except Exception as e:
                         print(f"Error listing lease history: {e}")
 
@@ -344,7 +382,7 @@ def main():
                 print("1. Record Payment")
                 print("2. Retrieve Payment History")
                 print("3. Calculate Total Revenue")
-                print("4. List All Payment")
+                print("4. List All Payments")
                 print("5. Back to Main Menu")
 
                 sub_choice = input("Enter your choice: ")
