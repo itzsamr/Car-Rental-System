@@ -1,7 +1,7 @@
 class Customer:
-    def __init__(self, customerID, firstName, lastName, email, phoneNumber):
-        self.customerID = customerID
-        self.firstName = firstName
-        self.lastName = lastName
-        self.email = email
-        self.phoneNumber = phoneNumber
+    def __init__(self, __customerID, __firstName, __lastName, __email, __phoneNumber):
+        self.customerID = __customerID
+        self.firstName = __firstName
+        self.lastName = __lastName
+        self.email = __email
+        self.phoneNumber = __phoneNumber

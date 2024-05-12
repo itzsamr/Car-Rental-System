@@ -1,20 +1,20 @@
 class Vehicle:
     def __init__(
         self,
-        vehicleID,
-        make,
-        model,
-        year,
-        dailyRate,
-        status,
-        passengerCapacity,
-        engineCapacity,
+        __vehicleID,
+        __make,
+        __model,
+        __year,
+        __dailyRate,
+        __status,
+        __passengerCapacity,
+        __engineCapacity,
     ):
-        self.vehicleID = vehicleID
-        self.make = make
-        self.model = model
-        self.year = year
-        self.dailyRate = dailyRate
-        self.status = status
-        self.passengerCapacity = passengerCapacity
-        self.engineCapacity = engineCapacity
+        self.vehicleID = __vehicleID
+        self.make = __make
+        self.model = __model
+        self.year = __year
+        self.dailyRate = __dailyRate
+        self.status = __status
+        self.passengerCapacity = __passengerCapacity
+        self.engineCapacity = __engineCapacity

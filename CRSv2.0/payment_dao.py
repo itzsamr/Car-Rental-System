@@ -60,7 +60,10 @@ class PaymentDAO:
             payments = []
             for row in cursor.fetchall():
                 payment = Payment(
-                    paymentID=row[0], leaseID=row[1], paymentDate=row[2], amount=row[3]
+                    __paymentID=row[0],
+                    __leaseID=row[1],
+                    __paymentDate=row[2],
+                    __amount=row[3],
                 )
                 payments.append(payment)
             conn.close()

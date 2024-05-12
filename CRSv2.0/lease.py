@@ -1,8 +1,10 @@
 class Lease:
-    def __init__(self, leaseID, vehicleID, customerID, startDate, endDate, leaseType):
-        self.leaseID = leaseID
-        self.vehicleID = vehicleID
-        self.customerID = customerID
-        self.startDate = startDate
-        self.endDate = endDate
-        self.leaseType = leaseType
+    def __init__(
+        self, __leaseID, __vehicleID, __customerID, __startDate, __endDate, __leaseType
+    ):
+        self.leaseID = __leaseID
+        self.vehicleID = __vehicleID
+        self.customerID = __customerID
+        self.startDate = __startDate
+        self.endDate = __endDate
+        self.leaseType = __leaseType
