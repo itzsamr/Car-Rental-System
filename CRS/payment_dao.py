@@ -1,14 +1,15 @@
 from DBConnUtil import DBConnUtil
+from payment import Payment
 
 
 class PaymentDAO:
-    def record_payment(self, leaseID, amount):
+    def record_payment(self, payment_id, lease_id, payment_date, amount):
         try:
             conn = DBConnUtil.create_connection()
             cursor = conn.cursor()
             cursor.execute(
-                "INSERT INTO Payment (leaseID, paymentDate, amount) VALUES (?, GETDATE(), ?)",
-                (leaseID, amount),
+                "INSERT INTO Payment (paymentID, leaseID, paymentDate, amount) VALUES (?, ?, ?, ?)",
+                (payment_id, lease_id, payment_date, amount),
             )
             conn.commit()
             print("Payment recorded successfully.")

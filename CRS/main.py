@@ -350,13 +350,51 @@ def main():
 
                 if sub_choice == "1":
                     # Record Payment
-                    pass
+                    try:
+                        payment_id = int(input("Enter new payment ID: "))
+                        lease_id = int(input("Enter lease ID: "))
+                        payment_date = input("Enter payment date (YYYY-MM-DD): ")
+                        amount = float(input("Enter payment amount: "))
+                        payment_dao.record_payment(
+                            payment_id, lease_id, payment_date, amount
+                        )
+                        print("Payment recorded successfully.")
+                    except ValueError:
+                        print(
+                            "Invalid input. Please enter valid lease ID, payment date, and payment amount."
+                        )
+                    except Exception as e:
+                        print(f"Error recording payment: {e}")
+
                 elif sub_choice == "2":
                     # Retrieve Payment History
-                    pass
+                    try:
+                        customer_id = int(input("Enter customer ID: "))
+
+                        # Call the method to retrieve payment history from PaymentDAO
+                        payments = payment_dao.retrieve_payment_history(customer_id)
+
+                        if payments:
+                            print("Payment History:")
+                            for payment in payments:
+                                print(
+                                    f"Payment ID: {payment.paymentID}, Payment Date: {payment.paymentDate}, Amount: {payment.amount}"
+                                )
+                        else:
+                            print("No payment history found for the given customer ID.")
+                    except ValueError:
+                        print("Invalid input. Please enter a valid customer ID.")
+                    except Exception as e:
+                        print(f"Error retrieving payment history: {e}")
+
                 elif sub_choice == "3":
                     # Calculate Total Revenue
-                    pass
+                    try:
+                        total_revenue = payment_dao.calculate_total_revenue()
+                        print(f"Total Revenue: {total_revenue}")
+                    except Exception as e:
+                        print(f"Error calculating total revenue: {e}")
+
                 elif sub_choice == "4":
                     break
                 else:
