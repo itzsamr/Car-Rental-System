@@ -9,8 +9,9 @@ class VehicleDAO:
             conn = DBConnUtil.create_connection()
             cursor = conn.cursor()
             cursor.execute(
-                "INSERT INTO Vehicle (make, model, year, dailyRate, status, passengerCapacity, engineCapacity) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO Vehicle (vehicleID, make, model, year, dailyRate, status, passengerCapacity, engineCapacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 (
+                    vehicle.vehicleID,
                     vehicle.make,
                     vehicle.model,
                     vehicle.year,

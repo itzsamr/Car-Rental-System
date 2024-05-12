@@ -6,6 +6,10 @@ from payment_dao import PaymentDAO
 from customer_not_found_exception import CustomerNotFoundException
 from car_not_found_exception import CarNotFoundException
 from lease_not_found_exception import LeaseNotFoundException
+from vehicle import Vehicle
+from customer import Customer
+from lease import Lease
+from payment import Payment
 
 
 def main():
@@ -126,10 +130,32 @@ def main():
 
                 if sub_choice == "1":
                     # Add Vehicle
-                    pass
+                    vehicle_id = input("Enter vehicle ID: ")
+                    make = input("Enter make: ")
+                    model = input("Enter model: ")
+                    year = int(input("Enter year: "))
+                    daily_rate = float(input("Enter daily rate: "))
+                    status = input("Enter status (available/notAvailable): ")
+                    passenger_capacity = int(input("Enter passenger capacity: "))
+                    engine_capacity = float(input("Enter engine capacity: "))
+
+                    vehicle = Vehicle(
+                        vehicle_id,
+                        make,
+                        model,
+                        year,
+                        daily_rate,
+                        status,
+                        passenger_capacity,
+                        engine_capacity,
+                    )
+                    vehicle_dao.add_vehicle(vehicle)
+
                 elif sub_choice == "2":
                     # Remove Vehicle
-                    pass
+                    vehicle_id = input("Enter vehicle ID to remove: ")
+                    vehicle_dao.remove_vehicle(vehicle_id)
+
                 elif sub_choice == "3":
                     # List Available Cars
                     cars = vehicle_dao.list_available_cars()
@@ -146,21 +172,18 @@ def main():
                         ]
                         for car in cars
                     ]
-                    print(
-                        tabulate(
-                            car_data,
-                            headers=[
-                                "ID",
-                                "Make",
-                                "Model",
-                                "Year",
-                                "Daily Rate",
-                                "Status",
-                                "Passenger Capacity",
-                                "Engine Capacity",
-                            ],
-                        )
-                    )
+                    headers = [
+                        "ID",
+                        "Make",
+                        "Model",
+                        "Year",
+                        "Daily Rate",
+                        "Status",
+                        "Passenger Capacity",
+                        "Engine Capacity",
+                    ]
+                    print(tabulate(car_data, headers, tablefmt="grid"))
+
                 elif sub_choice == "4":
                     # List Rented Cars
                     cars = vehicle_dao.list_rented_cars()
@@ -177,24 +200,49 @@ def main():
                         ]
                         for car in cars
                     ]
-                    print(
-                        tabulate(
-                            car_data,
-                            headers=[
-                                "ID",
-                                "Make",
-                                "Model",
-                                "Year",
-                                "Daily Rate",
-                                "Status",
-                                "Passenger Capacity",
-                                "Engine Capacity",
-                            ],
-                        )
-                    )
+                    headers = [
+                        "ID",
+                        "Make",
+                        "Model",
+                        "Year",
+                        "Daily Rate",
+                        "Status",
+                        "Passenger Capacity",
+                        "Engine Capacity",
+                    ]
+                    print(tabulate(car_data, headers, tablefmt="grid"))
+
                 elif sub_choice == "5":
                     # Find Car by ID
-                    pass
+                    car_id = input("Enter car ID to find: ")
+                    car = vehicle_dao.find_car_by_id(car_id)
+                    if car:
+                        car_data = [
+                            [
+                                car.vehicleID,
+                                car.make,
+                                car.model,
+                                car.year,
+                                car.dailyRate,
+                                car.status,
+                                car.passengerCapacity,
+                                car.engineCapacity,
+                            ]
+                        ]
+                        headers = [
+                            "ID",
+                            "Make",
+                            "Model",
+                            "Year",
+                            "Daily Rate",
+                            "Status",
+                            "Passenger Capacity",
+                            "Engine Capacity",
+                        ]
+                        print(tabulate(car_data, headers, tablefmt="grid"))
+                    else:
+                        print("Car not found.")
+
                 elif sub_choice == "6":
                     break
                 else:
