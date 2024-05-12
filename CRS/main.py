@@ -261,10 +261,21 @@ def main():
 
                 if sub_choice == "1":
                     # Create Lease
-                    pass
+                    lease_id = input("Enter new lease ID: ")
+                    customer_id = input("Enter customer ID: ")
+                    car_id = input("Enter car ID: ")
+                    start_date = input("Enter start date (YYYY-MM-DD): ")
+                    end_date = input("Enter end date (YYYY-MM-DD): ")
+                    lease_type = input("Enter lease type (DailyLease/MonthlyLease): ")
+                    lease_dao.create_lease(
+                        lease_id, customer_id, car_id, start_date, end_date, lease_type
+                    )
+
                 elif sub_choice == "2":
                     # Return Car
-                    pass
+                    lease_id = input("Enter lease ID to return the car: ")
+                    lease_dao.return_car(lease_id)
+
                 elif sub_choice == "3":
                     # List Active Leases
                     leases = lease_dao.list_active_leases()
@@ -279,48 +290,51 @@ def main():
                         ]
                         for lease in leases
                     ]
-                    print(
-                        tabulate(
-                            lease_data,
-                            headers=[
-                                "Lease ID",
-                                "Vehicle ID",
-                                "Customer ID",
-                                "Start Date",
-                                "End Date",
-                                "Type",
-                            ],
-                        )
-                    )
+                    headers = [
+                        "Lease ID",
+                        "Vehicle ID",
+                        "Customer ID",
+                        "Start Date",
+                        "End Date",
+                        "Type",
+                    ]
+                    print(tabulate(lease_data, headers, tablefmt="grid"))
+
                 elif sub_choice == "4":
                     # List Lease History
-                    leases = lease_dao.list_lease_history()
-                    lease_data = [
-                        [
-                            lease.leaseID,
-                            lease.vehicleID,
-                            lease.customerID,
-                            lease.startDate,
-                            lease.endDate,
-                            lease.type,
-                        ]
-                        for lease in leases
-                    ]
-                    print(
-                        tabulate(
-                            lease_data,
-                            headers=[
+                    try:
+                        leases = lease_dao.list_lease_history()
+                        if leases:
+                            lease_data = [
+                                [
+                                    lease.leaseID,
+                                    lease.vehicleID,
+                                    lease.customerID,
+                                    lease.startDate,
+                                    lease.endDate,
+                                    lease.leaseType,
+                                ]
+                                for lease in leases
+                            ]
+                            headers = [
                                 "Lease ID",
                                 "Vehicle ID",
                                 "Customer ID",
                                 "Start Date",
                                 "End Date",
                                 "Type",
-                            ],
-                        )
-                    )
+                            ]
+                            print(
+                                tabulate(lease_data, headers=headers, tablefmt="grid")
+                            )
+                        else:
+                            print("No lease history found.")
+                    except Exception as e:
+                        print(f"Error listing lease history: {e}")
+
                 elif sub_choice == "5":
                     break
+
                 else:
                     print("Invalid choice. Please try again.")
 

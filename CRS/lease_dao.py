@@ -4,13 +4,15 @@ from lease_not_found_exception import LeaseNotFoundException
 
 
 class LeaseDAO:
-    def create_lease(self, customerID, vehicleID, startDate, endDate, leaseType):
+    def create_lease(
+        self, leaseID, customerID, vehicleID, startDate, endDate, leaseType
+    ):
         try:
             conn = DBConnUtil.create_connection()
             cursor = conn.cursor()
             cursor.execute(
-                "INSERT INTO Lease (vehicleID, customerID, startDate, endDate, type) VALUES (?, ?, ?, ?, ?)",
-                (vehicleID, customerID, startDate, endDate, leaseType),
+                "INSERT INTO Lease (leaseID, vehicleID, customerID, startDate, endDate, type) VALUES (?, ?, ?, ?, ?, ?)",
+                (leaseID, vehicleID, customerID, startDate, endDate, leaseType),
             )
             conn.commit()
             print("Lease created successfully.")
