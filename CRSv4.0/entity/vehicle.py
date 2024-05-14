@@ -1,7 +1,7 @@
 class Vehicle:
     def __init__(
         self,
-        vehicle_id,
+        vehicleID,
         make,
         model,
         year,
@@ -10,7 +10,7 @@ class Vehicle:
         passenger_capacity,
         engine_capacity,
     ):
-        self.__vehicle_id = vehicle_id
+        self.__vehicle_id = vehicleID
         self.__make = make
         self.__model = model
         self.__year = year

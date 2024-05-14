@@ -5,7 +5,9 @@ class PropertyUtil:
     @staticmethod
     def getPropertyString():
         config = configparser.ConfigParser()
-        config.read("config.properties")  # Path to your property file
+        config.read(
+            "C:/Users/91915/OneDrive - Valliammai Engineering College/Desktop/CarRentalSystem/CRSv4.0/util/config.properties"
+        )
 
         server_name = config.get("DATABASE", "server")
         database_name = config.get("DATABASE", "database")

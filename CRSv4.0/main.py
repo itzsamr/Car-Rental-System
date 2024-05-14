@@ -1,9 +1,7 @@
 from dao.ICarLeaseRepositoryImpl import ICarLeaseRepositoryImpl
 from entity.vehicle import Vehicle
-from entity.customer import Customer
-from entity.lease import Lease
-from datetime import date
 from exception.myexceptions import VehicleNotFoundException
+from pyodbc import *
 
 
 def car_management_menu(car_repository):
@@ -19,6 +17,7 @@ def car_management_menu(car_repository):
         choice = input("Enter your choice: ")
 
         if choice == "1":
+            vehicle_id = int(input("Enter vehicle ID: "))
             make = input("Enter make: ")
             model = input("Enter model: ")
             year = int(input("Enter year: "))
@@ -28,7 +27,7 @@ def car_management_menu(car_repository):
             engine_capacity = int(input("Enter engine capacity: "))
 
             vehicle = Vehicle(
-                None,
+                vehicle_id,
                 make,
                 model,
                 year,

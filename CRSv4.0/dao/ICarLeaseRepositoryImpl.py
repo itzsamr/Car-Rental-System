@@ -1,33 +1,74 @@
 from .ICarLeaseRepository import ICarLeaseRepository
-from entity.vehicle import Vehicle
-from entity.customer import Customer
-from entity.lease import Lease
-from entity.payment import Payment
 from datetime import date
+from entity.vehicle import Vehicle
+from entity.lease import Lease
+from entity.customer import Customer
+from entity.payment import Payment
 from typing import List
-from util import *
+from exception.myexceptions import VehicleNotFoundException
+from util.DBConnection import DBConnection
 
 
 class ICarLeaseRepositoryImpl(ICarLeaseRepository):
+    def __init__(self):
+        self.connection = DBConnection.getConnection()
+
+    def execute_query(self, query):
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        self.connection.commit()  # Commit changes to the database
+        return cursor.fetchall()
+
     def addVehicle(self, vehicle: Vehicle) -> None:
-        # Implementation
-        pass
+        query = (
+            f"INSERT INTO Vehicle (make, model, year, dailyRate, status, passengerCapacity, engineCapacity) "
+            f"VALUES ('{vehicle.get_id()},'{vehicle.get_make()}', '{vehicle.get_model()}', {vehicle.get_year()}, {vehicle.get_daily_rate()}, "
+            f"'{vehicle.get_status()}', {vehicle.get_passenger_capacity()}, {vehicle.get_engine_capacity()})"
+        )
+        self.execute_query(query)
 
     def removeVehicle(self, vehicle_id: int) -> None:
-        # Implementation
-        pass
+        query = f"DELETE FROM Vehicle WHERE vehicleID = {vehicle_id}"
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        if cursor.rowcount == 0:
+            raise VehicleNotFoundException(vehicle_id)
 
     def listAvailableVehicles(self) -> List[Vehicle]:
-        # Implementation
-        pass
+        query = "SELECT * FROM Vehicle WHERE status = 'available'"
+        rows = self.execute_query(query)
+        vehicles = []
+        for row in rows:
+            vehicle = Vehicle(
+                row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
+            )
+            vehicles.append(vehicle)
+        return vehicles
 
     def listRentedVehicles(self) -> List[Vehicle]:
-        # Implementation
-        pass
+        query = "SELECT * FROM Vehicle WHERE status = 'notAvailable'"
+        rows = self.execute_query(query)
+        vehicles = []
+        for row in rows:
+            vehicle = Vehicle(
+                row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
+            )
+            vehicles.append(vehicle)
+        return vehicles
 
     def findVehicleById(self, vehicle_id: int) -> Vehicle:
-        # Implementation
-        pass
+        query = "SELECT * FROM Vehicle WHERE vehicleID = ?"
+        cursor = self.connection.cursor()
+        cursor.execute(query, (vehicle_id,))
+        row = cursor.fetchone()
+
+        if row is None:
+            raise VehicleNotFoundException(vehicle_id)
+
+        vehicle = Vehicle(
+            row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
+        )
+        return vehicle
 
     def addCustomer(self, customer: Customer) -> None:
         # Implementation
