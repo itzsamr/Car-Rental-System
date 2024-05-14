@@ -140,22 +140,14 @@ class ICarLeaseRepositoryImpl(ICarLeaseRepository):
             print(f"Error adding customer: {e}")
 
     def remove_customer(self, customer_id: int) -> None:
-        try:
-            with self.connection:
-                cursor = self.connection.cursor()
-                cursor.execute(
-                    "SELECT * FROM Lease WHERE customerID = ?", (customer_id,)
-                )
-                leases = cursor.fetchall()
-                if leases:
-                    cursor.execute(
-                        "DELETE FROM Lease WHERE customerID = ?", (customer_id,)
-                    )
-                cursor.execute(
-                    "DELETE FROM Customer WHERE customerID = ?", (customer_id,)
-                )
-        except Exception as e:
-            print(f"Error removing customer: {e}")
+        with self.connection:
+            cursor = self.connection.cursor()
+            cursor.execute(
+                "DELETE FROM Payment WHERE leaseID IN (SELECT leaseID FROM Lease WHERE customerID = ?)",
+                (customer_id,),
+            )
+            cursor.execute("DELETE FROM Lease WHERE customerID = ?", (customer_id,))
+            cursor.execute("DELETE FROM Customer WHERE customerID = ?", (customer_id,))
 
     def list_customers(self) -> List[dict]:
         try:
