@@ -3,65 +3,84 @@ from entity.vehicle import Vehicle
 from entity.customer import Customer
 from entity.lease import Lease
 from entity.payment import Payment
-from datetime import date
+from datetime import datetime
 from typing import List
 
 
 class ICarLeaseRepository(ABC):
+
     @abstractmethod
-    def addVehicle(self, vehicle: Vehicle) -> None:
+    def add_car(
+        self,
+        make: str,
+        model: str,
+        year: int,
+        daily_rate: float,
+        status: str,
+        passenger_capacity: int,
+        engine_capacity: float,
+    ) -> None:
         pass
 
     @abstractmethod
-    def removeVehicle(self, vehicle_id: int) -> None:
+    def remove_car(self, car_id: int) -> None:
         pass
 
     @abstractmethod
-    def listAvailableVehicles(self) -> List[Vehicle]:
+    def list_available_cars(self) -> List[dict]:
         pass
 
     @abstractmethod
-    def listRentedVehicles(self) -> List[Vehicle]:
+    def list_rented_cars(self) -> List[dict]:
         pass
 
     @abstractmethod
-    def findVehicleById(self, vehicle_id: int) -> Vehicle:
+    def find_car_by_id(self, car_id: int) -> dict:
         pass
 
     @abstractmethod
-    def addCustomer(self, customer: Customer) -> None:
+    def add_customer(
+        self, first_name: str, last_name: str, email: str, phone_number: str
+    ) -> None:
         pass
 
     @abstractmethod
-    def removeCustomer(self, customer_id: int) -> None:
+    def remove_customer(self, customer_id: int) -> None:
         pass
 
     @abstractmethod
-    def listCustomers(self) -> List[Customer]:
+    def list_customers(self) -> List[dict]:
         pass
 
     @abstractmethod
-    def findCustomerById(self, customer_id: int) -> Customer:
+    def find_customer_by_id(self, customer_id: int) -> dict:
         pass
 
     @abstractmethod
-    def createLease(
-        self, customer_id: int, vehicle_id: int, start_date: date, end_date: date
-    ) -> Lease:
+    def create_lease(
+        self,
+        customer_id: int,
+        vehicle_id: int,
+        start_date: datetime,
+        end_date: datetime,
+        lease_type: str,
+    ) -> None:
         pass
 
     @abstractmethod
-    def returnVehicle(self, lease_id: int) -> Lease:
+    def return_car(self, lease_id: int) -> None:
         pass
 
     @abstractmethod
-    def listActiveLeases(self) -> List[Lease]:
+    def list_active_leases(self) -> List[dict]:
         pass
 
     @abstractmethod
-    def listLeaseHistory(self) -> List[Lease]:
+    def list_lease_history(self) -> List[dict]:
         pass
 
     @abstractmethod
-    def recordPayment(self, lease: Lease, amount: float) -> None:
+    def record_payment(
+        self, lease_id: int, payment_date: datetime, amount: float
+    ) -> None:
         pass
