@@ -220,6 +220,7 @@ class ICarLeaseRepositoryImpl(ICarLeaseRepository):
 
     def create_lease(
         self,
+        lease_id: int,
         customer_id: int,
         car_id: int,
         start_date: datetime,
@@ -230,8 +231,8 @@ class ICarLeaseRepositoryImpl(ICarLeaseRepository):
             with self.connection:
                 cursor = self.connection.cursor()
                 cursor.execute(
-                    "INSERT INTO Lease (customerID, vehicleID, startDate, endDate, type) VALUES (?, ?, ?, ?, ?)",
-                    (customer_id, car_id, start_date, end_date, lease_type),
+                    "INSERT INTO Lease (leaseID, customerID, vehicleID, startDate, endDate, type) VALUES (?, ?, ?, ?, ?, ?)",
+                    (lease_id, customer_id, car_id, start_date, end_date, lease_type),
                 )
             print("Lease created successfully.")
         except Exception as e:
@@ -258,7 +259,7 @@ class ICarLeaseRepositoryImpl(ICarLeaseRepository):
         try:
             with self.connection:
                 cursor = self.connection.cursor()
-                cursor.execute("SELECT * FROM Lease WHERE endDate IS NULL")
+                cursor.execute("SELECT * FROM Lease WHERE endDate = '1900-01-01'")
                 leases = [
                     {
                         "leaseID": row[0],

@@ -305,7 +305,6 @@ class CarRentalSystem:
             car_lease_repository.create_lease(
                 lease_id, customer_id, car_id, start_date, end_date, lease_type
             )
-            print("Lease created successfully.")
         except Exception as e:
             print(f"Error creating lease: {e}")
 
@@ -314,7 +313,6 @@ class CarRentalSystem:
         try:
             lease_id = input("Enter lease ID to return the car: ")
             car_lease_repository.return_car(lease_id)
-            print("Car returned successfully.")
         except Exception as e:
             print(f"Error returning car: {e}")
 
@@ -329,9 +327,20 @@ class CarRentalSystem:
                     "Customer ID",
                     "Start Date",
                     "End Date",
-                    "Type",
+                    "Lease Type",
                 ]
-                print(tabulate(leases, headers=headers, tablefmt="grid"))
+                rows = [
+                    [
+                        lease["leaseID"],
+                        lease["vehicleID"],
+                        lease["customerID"],
+                        lease["startDate"],
+                        lease["endDate"],
+                        lease["type"],
+                    ]
+                    for lease in leases
+                ]
+                print(tabulate(rows, headers=headers, tablefmt="grid"))
             else:
                 print("No active leases found.")
         except Exception as e:
@@ -350,7 +359,18 @@ class CarRentalSystem:
                     "End Date",
                     "Lease Type",
                 ]
-                print(tabulate(leases, headers=headers, tablefmt="grid"))
+                rows = [
+                    [
+                        lease["leaseID"],
+                        lease["vehicleID"],
+                        lease["customerID"],
+                        lease["startDate"],
+                        lease["endDate"],
+                        lease["type"],
+                    ]
+                    for lease in leases
+                ]
+                print(tabulate(rows, headers=headers, tablefmt="grid"))
             else:
                 print("No lease history found.")
         except Exception as e:
