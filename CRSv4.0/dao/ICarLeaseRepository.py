@@ -4,7 +4,7 @@ from entity.customer import Customer
 from entity.lease import Lease
 from entity.payment import Payment
 from datetime import datetime
-from typing import List
+from typing import List, Dict
 
 
 class ICarLeaseRepository(ABC):
@@ -84,4 +84,16 @@ class ICarLeaseRepository(ABC):
     def record_payment(
         self, lease_id: int, payment_date: datetime, amount: float
     ) -> None:
+        pass
+
+    @abstractmethod
+    def retrieve_payment_history(self, lease_id: int) -> List[Dict[str, any]]:
+        pass
+
+    @abstractmethod
+    def calculate_total_revenue(self) -> float:
+        pass
+
+    @abstractmethod
+    def list_all_payments(self) -> List[Dict[str, any]]:
         pass

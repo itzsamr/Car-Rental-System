@@ -429,15 +429,24 @@ class CarRentalSystem:
     @staticmethod
     def retrieve_payment_history(car_lease_repository):
         try:
-            customer_id = int(input("Enter customer ID: "))
-            payments = car_lease_repository.retrieve_payment_history(customer_id)
+            lease_id = int(input("Enter lease ID: "))
+            payments = car_lease_repository.retrieve_payment_history(lease_id)
             if payments:
-                headers = ["Payment ID", "Payment Date", "Amount"]
-                print(tabulate(payments, headers=headers, tablefmt="grid"))
+                headers = ["Lease ID", "Payment ID", "Payment Date", "Amount"]
+                rows = [
+                    [
+                        payment["leaseID"],
+                        payment["paymentID"],
+                        payment["paymentDate"],
+                        payment["amount"],
+                    ]
+                    for payment in payments
+                ]
+                print(tabulate(rows, headers=headers, tablefmt="grid"))
             else:
-                print("No payment history found for the given customer ID.")
+                print("No payment history found for the given lease ID.")
         except ValueError:
-            print("Invalid input. Please enter a valid customer ID.")
+            print("Invalid input. Please enter a valid lease ID.")
         except Exception as e:
             print(f"Error retrieving payment history: {e}")
 
@@ -454,8 +463,9 @@ class CarRentalSystem:
         try:
             payments = car_lease_repository.list_all_payments()
             if payments:
-                headers = ["Payment ID", "Lease ID", "Payment Date", "Amount"]
-                print(tabulate(payments, headers=headers, tablefmt="grid"))
+                headers = payments[0].keys()
+                rows = [payment.values() for payment in payments]
+                print(tabulate(rows, headers=headers, tablefmt="grid"))
             else:
                 print("No payments found.")
         except Exception as e:

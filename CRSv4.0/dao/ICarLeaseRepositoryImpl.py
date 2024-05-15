@@ -4,7 +4,7 @@ from entity.vehicle import Vehicle
 from entity.lease import Lease
 from entity.customer import Customer
 from entity.payment import Payment
-from typing import List
+from typing import List, Dict
 from exception.myexceptions import *
 from util.DBConnection import DBConnection
 
@@ -296,15 +296,62 @@ class ICarLeaseRepositoryImpl(ICarLeaseRepository):
             print(f"Error listing lease history: {e}")
 
     def record_payment(
-        self, lease_id: int, payment_date: datetime, amount: float
+        self, payment_id: int, lease_id: int, payment_date: datetime, amount: float
     ) -> None:
         try:
             with self.connection:
                 cursor = self.connection.cursor()
                 cursor.execute(
-                    "INSERT INTO Payment (leaseID, paymentDate, amount) VALUES (?, ?, ?)",
-                    (lease_id, payment_date, amount),
+                    "INSERT INTO Payment (paymentID, leaseID, paymentDate, amount) VALUES (?, ?, ?, ?)",
+                    (payment_id, lease_id, payment_date, amount),
                 )
-            print("Payment recorded successfully.")
         except Exception as e:
             print(f"Error recording payment: {e}")
+
+    def retrieve_payment_history(self, lease_id: int) -> List[Dict[str, any]]:
+        try:
+            with self.connection:
+                cursor = self.connection.cursor()
+                cursor.execute("SELECT * FROM Payment WHERE leaseID = ?", (lease_id,))
+                payments = []
+                for row in cursor.fetchall():
+                    payment = {
+                        "leaseID": row[0],
+                        "paymentID": row[1],
+                        "paymentDate": row[2],
+                        "amount": row[3],
+                    }
+                    payments.append(payment)
+                return payments
+        except Exception as e:
+            print(f"Error retrieving payment history: {e}")
+            return []
+
+    def calculate_total_revenue(self) -> float:
+        try:
+            with self.connection:
+                cursor = self.connection.cursor()
+                cursor.execute("SELECT SUM(amount) FROM Payment")
+                total_revenue = cursor.fetchone()[0]
+                return total_revenue if total_revenue else 0.0
+        except Exception as e:
+            print(f"Error calculating total revenue: {e}")
+            return 0.0
+
+    def list_all_payments(self) -> List[Dict[str, any]]:
+        try:
+            with self.connection:
+                cursor = self.connection.cursor()
+                cursor.execute("SELECT * FROM Payment")
+                payments = []
+                for row in cursor.fetchall():
+                    payment = {
+                        "leaseID": row[0],
+                        "paymentDate": row[1],
+                        "amount": row[2],
+                    }
+                    payments.append(payment)
+                return payments
+        except Exception as e:
+            print(f"Error listing all payments: {e}")
+            return []
