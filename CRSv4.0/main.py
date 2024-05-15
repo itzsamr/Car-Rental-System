@@ -149,10 +149,10 @@ class CarRentalSystem:
             sub_choice = input("Enter your choice: ")
 
             if sub_choice == "1":
-                CarRentalSystem.add_vehicle(car_lease_repository)
+                CarRentalSystem.add_car(car_lease_repository)
 
             elif sub_choice == "2":
-                CarRentalSystem.remove_vehicle(car_lease_repository)
+                CarRentalSystem.remove_car(car_lease_repository)
 
             elif sub_choice == "3":
                 CarRentalSystem.list_available_cars(car_lease_repository)
@@ -170,7 +170,7 @@ class CarRentalSystem:
                 print("Invalid choice. Please try again.")
 
     @staticmethod
-    def add_vehicle(car_lease_repository):
+    def add_car(car_lease_repository):
         try:
             vehicle_id = input("Enter vehicle ID: ")
             make = input("Enter make: ")
@@ -180,8 +180,7 @@ class CarRentalSystem:
             status = input("Enter status (available/notAvailable): ")
             passenger_capacity = int(input("Enter passenger capacity: "))
             engine_capacity = float(input("Enter engine capacity: "))
-
-            vehicle = Vehicle(
+            car_lease_repository.add_car(
                 vehicle_id,
                 make,
                 model,
@@ -191,16 +190,15 @@ class CarRentalSystem:
                 passenger_capacity,
                 engine_capacity,
             )
-            car_lease_repository.add_vehicle(vehicle)
             print("Vehicle added successfully.")
         except Exception as e:
             print(f"Error adding vehicle: {e}")
 
     @staticmethod
-    def remove_vehicle(car_lease_repository):
+    def remove_car(car_lease_repository):
         try:
             vehicle_id = input("Enter vehicle ID to remove: ")
-            car_lease_repository.remove_vehicle(vehicle_id)
+            car_lease_repository.remove_car(vehicle_id)
             print("Vehicle removed successfully.")
         except Exception as e:
             print(f"Error removing vehicle: {e}")
@@ -208,13 +206,28 @@ class CarRentalSystem:
     @staticmethod
     def list_available_cars(car_lease_repository):
         try:
-            cars, headers = car_lease_repository.list_available_cars()
+            cars = car_lease_repository.list_available_cars()
             if cars:
-                print(tabulate(cars, headers=headers, tablefmt="grid"))
+                headers = cars[0].keys()
+                rows = [list(car.values()) for car in cars]
+                print(tabulate(rows, headers=headers, tablefmt="grid"))
             else:
                 print("No available cars found.")
         except Exception as e:
             print(f"Error listing available cars: {e}")
+
+        @staticmethod
+        def list_rented_cars(car_lease_repository):
+            try:
+                cars = car_lease_repository.list_rented_cars()
+                if cars:
+                    headers = cars[0].keys()
+                    rows = [list(car.values()) for car in cars]
+                    print(tabulate(rows, headers=headers, tablefmt="grid"))
+                else:
+                    print("No available cars found.")
+            except Exception as e:
+                print(f"Error listing available cars: {e}")
 
     @staticmethod
     def find_car_by_id(car_lease_repository):
@@ -223,7 +236,7 @@ class CarRentalSystem:
             car = car_lease_repository.find_car_by_id(car_id)
             if car:
                 headers = [
-                    "ID",
+                    "Car ID",
                     "Make",
                     "Model",
                     "Year",
@@ -232,11 +245,23 @@ class CarRentalSystem:
                     "Passenger Capacity",
                     "Engine Capacity",
                 ]
-                print(tabulate([car], headers=headers, tablefmt="grid"))
+                table = [
+                    [
+                        car["carID"],
+                        car["make"],
+                        car["model"],
+                        car["year"],
+                        car["dailyRate"],
+                        car["status"],
+                        car["passengerCapacity"],
+                        car["engineCapacity"],
+                    ]
+                ]
+                print(tabulate(table, headers=headers, tablefmt="grid"))
             else:
                 print("Car not found.")
-        except Exception as e:
-            print(f"Error finding car: {e}")
+        except VehicleNotFoundException as e:
+            print(f"Error: {e}")
 
     @staticmethod
     def lease_management(car_lease_repository):

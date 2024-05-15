@@ -12,6 +12,7 @@ class ICarLeaseRepository(ABC):
     @abstractmethod
     def add_car(
         self,
+        vehicle_id: int,
         make: str,
         model: str,
         year: int,
