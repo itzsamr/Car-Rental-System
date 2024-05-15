@@ -11,7 +11,6 @@ class DBConnection:
             connection_string = PropertyUtil.getPropertyString()
             try:
                 DBConnection.connection = pyodbc.connect(connection_string)
-                print("Connected to database successfully")
             except pyodbc.Error as e:
                 print(f"Error while connecting to SQL database: {e}")
         return DBConnection.connection

@@ -42,24 +42,33 @@ class ICarLeaseRepositoryImpl(ICarLeaseRepository):
             "engineCapacity": row[7],
         }
 
-    def add_car(self, vehicle: Vehicle) -> None:
+    def add_car(
+        self,
+        vehicle_id: int,
+        make: str,
+        model: str,
+        year: int,
+        daily_rate: float,
+        status: str,
+        passenger_capacity: int,
+        engine_capacity: float,
+    ) -> None:
         try:
             with self.connection:
                 cursor = self.connection.cursor()
                 cursor.execute(
                     "INSERT INTO Vehicle (vehicleID, make, model, year, dailyRate, status, passengerCapacity, engineCapacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                     (
-                        vehicle.vehicle_id,
-                        vehicle.make,
-                        vehicle.model,
-                        vehicle.year,
-                        vehicle.daily_rate,
-                        vehicle.status,
-                        vehicle.passenger_capacity,
-                        vehicle.engine_capacity,
+                        vehicle_id,
+                        make,
+                        model,
+                        year,
+                        daily_rate,
+                        status,
+                        passenger_capacity,
+                        engine_capacity,
                     ),
                 )
-            print("Car added successfully.")
         except Exception as e:
             print(f"Error adding car: {e}")
 
@@ -67,7 +76,10 @@ class ICarLeaseRepositoryImpl(ICarLeaseRepository):
         try:
             with self.connection:
                 cursor = self.connection.cursor()
-                cursor.execute("DELETE FROM Lease WHERE vehicleID = ?", (vehicle_id,))
+                cursor.execute(
+                    "DELETE FROM Payment WHERE leaseID IN (SELECT leaseID FROM Lease WHERE vehicleID = ?)",
+                    (vehicle_id,),
+                )
                 cursor.execute("DELETE FROM Vehicle WHERE vehicleID = ?", (vehicle_id,))
                 if cursor.rowcount == 0:
                     raise VehicleNotFoundException(
@@ -102,7 +114,7 @@ class ICarLeaseRepositoryImpl(ICarLeaseRepository):
         except Exception as e:
             print(f"Error listing available cars: {e}")
 
-    def list_rented_cars(self) -> List[dict]:
+    def list_of_rented_cars(self) -> List[dict]:
         try:
             with self.connection:
                 cursor = self.connection.cursor()

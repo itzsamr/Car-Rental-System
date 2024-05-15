@@ -1,5 +1,4 @@
 from dao.ICarLeaseRepositoryImpl import ICarLeaseRepositoryImpl
-from entity.vehicle import Vehicle
 from exception.myexceptions import *
 from pyodbc import *
 from tabulate import tabulate
@@ -158,7 +157,7 @@ class CarRentalSystem:
                 CarRentalSystem.list_available_cars(car_lease_repository)
 
             elif sub_choice == "4":
-                CarRentalSystem.list_rented_cars(car_lease_repository)
+                CarRentalSystem.list_of_rented_cars(car_lease_repository)
 
             elif sub_choice == "5":
                 CarRentalSystem.find_car_by_id(car_lease_repository)
@@ -199,7 +198,6 @@ class CarRentalSystem:
         try:
             vehicle_id = input("Enter vehicle ID to remove: ")
             car_lease_repository.remove_car(vehicle_id)
-            print("Vehicle removed successfully.")
         except Exception as e:
             print(f"Error removing vehicle: {e}")
 
@@ -217,9 +215,9 @@ class CarRentalSystem:
             print(f"Error listing available cars: {e}")
 
         @staticmethod
-        def list_rented_cars(car_lease_repository):
+        def list_of_rented_cars(car_lease_repository):
             try:
-                cars = car_lease_repository.list_rented_cars()
+                cars = car_lease_repository.list_of_rented_cars()
                 if cars:
                     headers = cars[0].keys()
                     rows = [list(car.values()) for car in cars]

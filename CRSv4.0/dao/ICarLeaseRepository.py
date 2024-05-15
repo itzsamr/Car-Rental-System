@@ -32,10 +32,6 @@ class ICarLeaseRepository(ABC):
         pass
 
     @abstractmethod
-    def list_rented_cars(self) -> List[dict]:
-        pass
-
-    @abstractmethod
     def find_car_by_id(self, car_id: int) -> dict:
         pass
 
@@ -96,4 +92,8 @@ class ICarLeaseRepository(ABC):
 
     @abstractmethod
     def list_all_payments(self) -> List[Dict[str, any]]:
+        pass
+
+    @abstractmethod
+    def list_of_rented_cars(self) -> List[dict]:
         pass
