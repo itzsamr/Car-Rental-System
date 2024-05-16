@@ -1,4 +1,4 @@
-from .customer import Customer
 from .vehicle import Vehicle
-from .payment import Payment
+from .customer import Customer
 from .lease import Lease
+from .payment import Payment

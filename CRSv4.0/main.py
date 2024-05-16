@@ -214,18 +214,18 @@ class CarRentalSystem:
         except Exception as e:
             print(f"Error listing available cars: {e}")
 
-        @staticmethod
-        def list_of_rented_cars(car_lease_repository):
-            try:
-                cars = car_lease_repository.list_of_rented_cars()
-                if cars:
-                    headers = cars[0].keys()
-                    rows = [list(car.values()) for car in cars]
-                    print(tabulate(rows, headers=headers, tablefmt="grid"))
-                else:
-                    print("No available cars found.")
-            except Exception as e:
-                print(f"Error listing available cars: {e}")
+    @staticmethod
+    def list_of_rented_cars(car_lease_repository):
+        try:
+            cars = car_lease_repository.list_of_rented_cars()
+            if cars:
+                headers = cars[0].keys()
+                rows = [list(car.values()) for car in cars]
+                print(tabulate(rows, headers=headers, tablefmt="grid"))
+            else:
+                print("No available cars found.")
+        except Exception as e:
+            print(f"Error listing available cars: {e}")
 
     @staticmethod
     def find_car_by_id(car_lease_repository):
