@@ -11,7 +11,7 @@ class CarRentalSystem:
         car_lease_repository = ICarLeaseRepositoryImpl()
 
         while True:
-            print("\nMain Menu:")
+            print("\n=====|Main Menu:|=====")
             print("1. Customer Management")
             print("2. Vehicle Management")
             print("3. Lease Management")
@@ -42,7 +42,7 @@ class CarRentalSystem:
     @staticmethod
     def customer_management(car_lease_repository):
         while True:
-            print("\nCustomer Management:")
+            print("\n=====|Customer Management:|=====")
             print("1. Add Customer")
             print("2. Remove Customer")
             print("3. List Customers")
@@ -137,7 +137,7 @@ class CarRentalSystem:
     @staticmethod
     def vehicle_management(car_lease_repository):
         while True:
-            print("\nVehicle Management:")
+            print("\n=====|Vehicle Management:|=====")
             print("1. Add Vehicle")
             print("2. Remove Vehicle")
             print("3. List Available Cars")
@@ -264,7 +264,7 @@ class CarRentalSystem:
     @staticmethod
     def lease_management(car_lease_repository):
         while True:
-            print("\nLease Management:")
+            print("\n=====|Lease Management:|=====")
             print("1. Create Lease")
             print("2. Return Car")
             print("3. List Active Leases")
@@ -377,7 +377,7 @@ class CarRentalSystem:
     @staticmethod
     def payment_handling(car_lease_repository):
         while True:
-            print("\nPayment Handling:")
+            print("\n=====|Payment Handling:|=====")
             print("1. Record Payment")
             print("2. Retrieve Payment History")
             print("3. Calculate Total Revenue")
