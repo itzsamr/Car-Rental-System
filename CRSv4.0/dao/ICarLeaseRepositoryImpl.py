@@ -139,6 +139,7 @@ class ICarLeaseRepositoryImpl(ICarLeaseRepository):
     def find_car_by_id(self, car_id: int) -> dict:
         try:
             with self.connection:
+                print(f"Searching for car with ID {car_id}")
                 row = self._execute_and_fetch_one(
                     "SELECT * FROM Vehicle WHERE vehicleID = ?", (car_id,)
                 )
@@ -154,11 +155,14 @@ class ICarLeaseRepositoryImpl(ICarLeaseRepository):
                     "engineCapacity": row[7],
                 }
             else:
-                raise VehicleNotFoundException(f"Car with ID {car_id} not found.")
+                print(f"Car with ID {car_id} not found, raising exception")
+                raise VehicleNotFoundException(car_id)
         except VehicleNotFoundException as cne:
             print(cne)
+            raise
         except Exception as e:
             print(f"Error finding car: {e}")
+            raise
 
     def add_customer(
         self,
@@ -210,6 +214,7 @@ class ICarLeaseRepositoryImpl(ICarLeaseRepository):
     def find_customer_by_id(self, customer_id: int) -> dict:
         try:
             with self.connection:
+                print(f"Searching for customer with ID {customer_id}")
                 row = self._execute_and_fetch_one(
                     "SELECT * FROM Customer WHERE customerID = ?", (customer_id,)
                 )
@@ -222,13 +227,14 @@ class ICarLeaseRepositoryImpl(ICarLeaseRepository):
                     "phoneNumber": row[4],
                 }
             else:
-                raise CustomerNotFoundException(
-                    f"Customer with ID {customer_id} not found."
-                )
+                print(f"Customer with ID {customer_id} not found, raising exception")
+                raise CustomerNotFoundException(customer_id)
         except CustomerNotFoundException as cne:
             print(cne)
+            raise
         except Exception as e:
             print(f"Error finding customer: {e}")
+            raise
 
     def create_lease(
         self,
@@ -253,19 +259,23 @@ class ICarLeaseRepositoryImpl(ICarLeaseRepository):
     def return_car(self, lease_id: int) -> None:
         try:
             with self.connection:
+                print(f"Returning car for lease ID {lease_id}")
                 cursor = self.connection.cursor()
                 cursor.execute(
                     "UPDATE Lease SET endDate = ? WHERE leaseID = ?",
                     (datetime.now(), lease_id),
                 )
                 if cursor.rowcount == 0:
-                    raise LeaseNotFoundException(f"Lease with ID {lease_id} not found.")
+                    print(f"Lease with ID {lease_id} not found, raising exception")
+                    raise LeaseNotFoundException(lease_id)
                 else:
                     print("Car returned successfully.")
         except LeaseNotFoundException as lne:
             print(lne)
+            raise
         except Exception as e:
             print(f"Error returning car: {e}")
+            raise
 
     def list_active_leases(self) -> List[Lease]:
         try:

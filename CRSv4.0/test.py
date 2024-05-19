@@ -14,7 +14,7 @@ class TestCarCreation(unittest.TestCase):
 
         vehicle_id = 19
         make = "Honda"
-        model = "Shine"
+        model = "Civic"
         year = 2022
         daily_rate = 50.0
         status = "available"
