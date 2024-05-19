@@ -333,7 +333,11 @@ class CarRentalSystem:
                         lease["vehicleID"],
                         lease["customerID"],
                         lease["startDate"],
-                        lease["endDate"],
+                        (
+                            "NULL"
+                            if lease["endDate"] == "1900-01-01"
+                            else lease["endDate"]
+                        ),
                         lease["type"],
                     ]
                     for lease in leases
