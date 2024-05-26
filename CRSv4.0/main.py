@@ -29,7 +29,7 @@ class CarRentalSystem:
             elif choice == "4":
                 CarRentalSystem.payment_handling(car_lease_repository)
             elif choice == "5":
-                print("Exiting program.")
+                print("Exiting program...")
                 break
             else:
                 print("Invalid choice. Please try again.")
@@ -78,8 +78,12 @@ class CarRentalSystem:
     def remove_customer(car_lease_repository):
         try:
             customer_id = input("Enter customer ID to remove: ")
-            car_lease_repository.remove_customer(customer_id)
-            print("Customer removed successfully.")
+            confirm = input("Are you sure you want to remove this customer? (y/n): ")
+            if confirm.lower() == "y":
+                car_lease_repository.remove_customer(customer_id)
+                print("Customer removed successfully.")
+            else:
+                print("Operation cancelled.")
         except CustomerNotFoundException as e:
             print(f"Error: {e}")
         except Error as e:
@@ -187,8 +191,12 @@ class CarRentalSystem:
     def remove_car(car_lease_repository):
         try:
             vehicle_id = input("Enter vehicle ID to remove: ")
-            car_lease_repository.remove_car(vehicle_id)
-            print("Vehicle removed successfully.")
+            confirm = input("Are you sure you want to remove this vehicle? (y/n): ")
+            if confirm.lower() == "y":
+                car_lease_repository.remove_car(vehicle_id)
+                print("Vehicle removed successfully.")
+            else:
+                print("Operation cancelled.")
         except VehicleNotFoundException as e:
             print(f"Error: {e}")
         except Error as e:
