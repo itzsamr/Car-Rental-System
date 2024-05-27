@@ -430,7 +430,7 @@ class CarRentalSystem:
     @staticmethod
     def retrieve_payment_history(car_lease_repository):
         try:
-            lease_id = int(input("Enter lease ID: "))
+            lease_id = int(input("Enter Payment ID: "))
             payments = car_lease_repository.retrieve_payment_history(lease_id)
             if payments:
                 headers = ["Lease ID", "Payment ID", "Payment Date", "Amount"]
