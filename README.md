@@ -21,7 +21,7 @@ CRS is a Python-based command-line application for managing a car rental busines
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/itzsamr/CarRentalSystem.git
+git clone https://github.com/itzsamr/Car-Rental-System.git
 ```
 
 2. Navigate to the project directory:
