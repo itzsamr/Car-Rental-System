@@ -6,7 +6,7 @@ class PropertyUtil:
     def getPropertyString():
         config = configparser.ConfigParser()
         config.read(
-            "C:/Users/91915/OneDrive - Valliammai Engineering College/Desktop/CarRentalSystem/CRSv4.0/util/config.properties"
+            "D:/Projects/CRS/Car-Rental-System/CRSv4.0/util/config.properties"
         )
 
         server_name = config.get("DATABASE", "server")
